@@ -113,6 +113,11 @@
       <AdditionalLibraryDirectories>$(LIBS)\glfw\3.3.7\bin.WIN64\lib-vc2022;$(LIBS)\glew\2.2.0\lib\Release\x64;$(LIBS)\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(LIBS)\assimp\bin\Release\assimp-vc143-mt.dll" "$(TargetDir)assimp-vc143-mt.dll"
+xcopy "$(ProjectDir)Sources\Shaders" "$(TargetDir)Shaders" /e /y /i /r
+xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -129,6 +134,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(LIBS)\assimp\bin\Release\assimp-vc143-mt.dll" "$(TargetDir)assimp-vc143-mt.dll"
+xcopy "$(ProjectDir)Sources\Shaders" "$(TargetDir)Shaders" /e /y /i /r
+xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Aircraft.cpp" />
@@ -187,6 +197,12 @@
     <None Include="..\..\Content\shaders\deferredLightingPass.vs" />
     <None Include="..\..\Content\shaders\gbuffer.fs" />
     <None Include="..\..\Content\shaders\gbuffer.vs" />
+    <None Include="Sources\Shaders\basic.ps" />
+    <None Include="Sources\Shaders\basic.vs" />
+    <None Include="Sources\Shaders\deferredLightingPass.fs" />
+    <None Include="Sources\Shaders\deferredLightingPass.vs" />
+    <None Include="Sources\Shaders\gbuffer.fs" />
+    <None Include="Sources\Shaders\gbuffer.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

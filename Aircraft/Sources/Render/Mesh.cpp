@@ -11,10 +11,10 @@ Mesh::Mesh(const aiMesh* mesh)
     std::vector<VertexNormalUv> verticesData;// (mesh->mNumFaces * 3);
     std::vector<unsigned int> indicesData;// (mesh->mNumFaces * 3);
     float val = 0;
-    for (int i = 0; i < mesh->mNumFaces; i++)
+    for (unsigned int i = 0; i < mesh->mNumFaces; i++)
     {
         const C_STRUCT aiFace* aiFace = &mesh->mFaces[i];
-        for (int j = 0; j < aiFace->mNumIndices; j++) {
+        for (unsigned int j = 0; j < aiFace->mNumIndices; j++) {
 
             int index = aiFace->mIndices[j];
             VertexNormalUv vertice;
@@ -34,8 +34,8 @@ Mesh::Mesh(const aiMesh* mesh)
         }
     }
 
-    mVertexArray = new VertexArray(&verticesData[0], verticesData.size());
-    mVertexArray->setIndices(&indicesData[0], indicesData.size());
+    mVertexArray = new VertexArray(&verticesData[0], (unsigned int)verticesData.size());
+    mVertexArray->setIndices(&indicesData[0], (unsigned int)indicesData.size());
 }
 
 VertexArray* Mesh::vertexArray()

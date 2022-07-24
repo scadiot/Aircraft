@@ -14,6 +14,9 @@
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{558aab02-5790-4d61-800a-68f3626b5926}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Render\Shader">
+      <UniqueIdentifier>{8a2b7021-9153-48ac-949f-e5911ad31cb9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Render\Texture.cpp">
@@ -175,6 +178,24 @@
     </None>
     <None Include="..\..\Content\shaders\deferredLightingPass.fs">
       <Filter>Shaders</Filter>
+    </None>
+    <None Include="Sources\Shaders\basic.ps">
+      <Filter>Source Files\Render\Shader</Filter>
+    </None>
+    <None Include="Sources\Shaders\basic.vs">
+      <Filter>Source Files\Render\Shader</Filter>
+    </None>
+    <None Include="Sources\Shaders\deferredLightingPass.fs">
+      <Filter>Source Files\Render\Shader</Filter>
+    </None>
+    <None Include="Sources\Shaders\deferredLightingPass.vs">
+      <Filter>Source Files\Render\Shader</Filter>
+    </None>
+    <None Include="Sources\Shaders\gbuffer.fs">
+      <Filter>Source Files\Render\Shader</Filter>
+    </None>
+    <None Include="Sources\Shaders\gbuffer.vs">
+      <Filter>Source Files\Render\Shader</Filter>
     </None>
   </ItemGroup>
 </Project>

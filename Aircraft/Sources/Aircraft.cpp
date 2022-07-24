@@ -125,7 +125,7 @@ int main(void)
     ShaderProgram* gBufferShaderProgram = mRenderController->shaderProgramController()->loadTexture("gbuffer.vs", "gbuffer.fs");
 
     //glEnable(GL_DEPTH_TEST);
-    Model* lModel = new Model("C:\\TMP\\aircraft\\Content\\earth\\earth.obj");
+    Model* lModel = new Model("Contents\\earth\\earth.obj");
     
 
 
@@ -158,17 +158,17 @@ int main(void)
         //ImGui::Text("This is some useful text.");
         //ImGui::End();
         if (keyRightDown) {
-            sunDirection -= 0.002f;
+            sunDirection -= 0.05f;
         }
         if (keyLeftDown) {
-            sunDirection += 0.002f;
+            sunDirection += 0.05f;
         }
 
         if (keyADown) {
-            cameraDirection += 0.001f;
+            cameraDirection += 0.01f;
         }
         if (keyDDown) {
-            cameraDirection -= 0.001f;
+            cameraDirection -= 0.01f;
         }
 
         camera->setPosition(cameraPosition);
