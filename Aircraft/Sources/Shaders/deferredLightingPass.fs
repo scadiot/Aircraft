@@ -93,6 +93,6 @@ void main() {
 
     vec3 normal = texture(gNormal, aTexCoord).rgb;
     float diff = max(dot(normal, gSunOrientation), 0.0);
-    outFragColor.rgb = mix(texture(gAlbedoSpec, aTexCoord).rgb * diff, vec3(0, 0, 1), c);
+    outFragColor.rgb = mix(texture(gAlbedoSpec, aTexCoord).rgb * diff, vec3(0, 0, 1), 0);
     outFragColor.a = 1;
 }

@@ -13,13 +13,10 @@
 #include "Render/VertexArray.h"
 #include "Render/Model.h"
 #include "Render/Mesh.h"
-#include "Render/ShaderProgramController.h"
-#include "Render/TextureController.h"
-#include "Render/Framebuffer.h"
-#include "Render/GBuffer.h"
-#include "Render/Quad.h"
 #include "Render/Sphere.h"
 #include "Render/Camera.h"
+
+#include "Planet/Planet.h"
 
 #include "Render/ShaderProgramDeferredLightPass.h"
 #define STB_IMAGE_IMPLEMENTATION
@@ -118,40 +115,43 @@ int main(void)
 
 
 
-    RenderController* mRenderController = new RenderController();
-    ShaderProgram* shaderProgram = mRenderController->shaderProgramController()->loadTexture("basic.vs", "basic.ps");
+    RenderController* mRenderController = new RenderController(windowWidth, windowHeight);
+    //ShaderProgram* shaderProgram = mRenderController->shaderProgramController()->loadTexture("basic.vs", "basic.ps");
   
-    ShaderProgramDeferredLightPass* deferredLightingPass = new ShaderProgramDeferredLightPass(mRenderController, "deferredLightingPass.vs", "deferredLightingPass.fs");// mRenderController->shaderProgramController()->loadTexture("deferredLightingPass.vs", "deferredLightingPass.fs");
-    ShaderProgram* gBufferShaderProgram = mRenderController->shaderProgramController()->loadTexture("gbuffer.vs", "gbuffer.fs");
+    Planet::Planet* planet = new Planet::Planet(mRenderController);
 
     //glEnable(GL_DEPTH_TEST);
-    Model* lModel = new Model("Contents\\earth\\earth.obj");
+    //Model* lModel = new Model("Contents\\earth\\earth.obj");
     
 
 
-    Texture* lTexture = mRenderController->textureController()->loadTexture("earth\\Textures\\earth.png");
-    Framebuffer* framebuffer = new Framebuffer(64, 64);
+    //Texture* lTexture = mRenderController->textureController()->loadTexture("earth\\Textures\\earth.png");
+    //Framebuffer* framebuffer = new Framebuffer(64, 64);
 
-    GBuffer* lGBuffer = new GBuffer(windowWidth, windowHeight);
+    //GBuffer* lGBuffer = new GBuffer(windowWidth, windowHeight);
 
-    Quad* quad = new Quad();
-    Sphere* sphere = new Sphere();
-    glm::mat4 quadMatrix = glm::translate(glm::vec3(0, 0, 0));
+    //Quad* quad = new Quad();
+    //Sphere* sphere = new Sphere();
+    //glm::mat4 quadMatrix = glm::translate(glm::vec3(0, 0, 0));
 
-    Camera* camera = new Camera();
+    //Camera* camera = new Camera();
     glm::vec3 cameraPosition(0, 0, 30);
     glm::vec3 cameraTarget(0, 0, 0);
-    camera->setPosition(cameraPosition);
-    camera->setTarget(cameraTarget);
+    //camera->setPosition(cameraPosition);
+    //camera->setTarget(cameraTarget);
 
-    glm::rotate((double)glfwGetTime(), glm::dvec3(0, 1, 0));
-    bool show_demo_window = true;
+    mRenderController->camera()->setPosition(cameraPosition);
+    mRenderController->camera()->setTarget(cameraTarget);
+
+
+    //glm::rotate((double)glfwGetTime(), glm::dvec3(0, 1, 0));
+    //bool show_demo_window = true;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        //ImGui_ImplOpenGL3_NewFrame();
+        //ImGui_ImplGlfw_NewFrame();
+        //ImGui::NewFrame();
 
         
         //ImGui::Begin("Hello, world!");
@@ -171,12 +171,13 @@ int main(void)
             cameraDirection -= 0.01f;
         }
 
-        camera->setPosition(cameraPosition);
+        mRenderController->camera()->setPosition(cameraPosition);
+        //camera->setPosition(cameraPosition);
 
         glm::mat4 m2 = glm::rotate(glm::mat4(1.0f), cameraDirection, glm::vec3(0, 1, 0));
         glm::vec3 cameraDir = glm::vec3(m2 * glm::vec4(0, 0, -1, 1));
         cameraTarget = cameraDir + cameraPosition;
-        camera->setTarget(cameraTarget);
+        mRenderController->camera()->setTarget(cameraTarget);
 
 
 
@@ -186,52 +187,13 @@ int main(void)
         if (keySDown) {
             cameraPosition -= cameraDir * 0.01f;
         }
-        camera->setPosition(cameraPosition);
-        ImGui::Render();
-        glm::mat4 earthModelMatrix = glm::rotate((float)glfwGetTime(), glm::vec3(0, 1, 0));
-        glm::mat4 earthTransformMatrix = camera->getProjectionMatrix() * camera->getViewMatrix() * earthModelMatrix;
+        mRenderController->camera()->setPosition(cameraPosition);
+        //ImGui::Render();
+        //glm::mat4 earthModelMatrix = glm::rotate((float)glfwGetTime(), glm::vec3(0, 1, 0));
+        mRenderController->setLightDirection(glm::normalize(glm::vec3(1,0.5, -1)));
 
-        
-        lGBuffer->bind();
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glEnable(GL_DEPTH_TEST);
-
-        gBufferShaderProgram->use();
-        gBufferShaderProgram->setMvpMatrix(earthTransformMatrix);
-        gBufferShaderProgram->setModelMatrix(earthModelMatrix);
-        lTexture->bind();
-
-        //for (Mesh* mesh : lModel->meshes()) {
-        //    mesh->vertexArray()->bind();
-        //    glDrawElements(GL_TRIANGLES, mesh->vertexArray()->facesCount() * 3, GL_UNSIGNED_INT, 0);
-        //}
-        sphere->vertexArray()->bind();
-        glDrawElements(GL_TRIANGLES, sphere->vertexArray()->facesCount() * 3, GL_UNSIGNED_INT, 0);
-
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        glEnable(GL_DEPTH_TEST);
-
-        deferredLightingPass->use();
-        auto inverseMatrix = glm::inverse(camera->getProjectionMatrix() * camera->getViewMatrix());
-        deferredLightingPass->setInverseMatrix(inverseMatrix);
-        deferredLightingPass->setCameraDirection(cameraPosition);
-        deferredLightingPass->setAtmsophereRadius(7);
-        deferredLightingPass->setPlanetRadius(5);
-        deferredLightingPass->setPlanetPosition(glm::vec3(0, 0, 0));
-
-        glm::mat4 m = glm::rotate(glm::mat4(1.0f), sunDirection, glm::vec3(0, 1, 0));
-        glm::vec3 sunDirectionV = glm::normalize(glm::vec3(m * glm::vec4(0, 0, -1, 1)) + glm::vec3(0, 0.7, 0));
-        deferredLightingPass->setSunOrientation(sunDirectionV);
-        //deferredLightingPass->setMvpMatrix(quadMatrix);
-        quad->vertexArray()->bind();
-        lGBuffer->bindTexture();
-        glDrawElements(GL_TRIANGLES, quad->vertexArray()->facesCount() * 3, GL_UNSIGNED_INT, 0);
-
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+       // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        mRenderController->render();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

@@ -103,7 +103,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(LIBS)\glfw\3.3.7\include;$(LIBS)\glew\2.2.0\include;$(LIBS)\glm;$(LIBS)\stb;$(LIBS)\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
@@ -149,6 +149,9 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClCompile Include="Sources\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Sources\imgui\imgui_tables.cpp" />
     <ClCompile Include="Sources\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Planet\MercatorTools.cpp" />
+    <ClCompile Include="Sources\Planet\Planet.cpp" />
+    <ClCompile Include="Sources\Planet\PlanetChunk.cpp" />
     <ClCompile Include="Sources\Render\Camera.cpp" />
     <ClCompile Include="Sources\Render\Framebuffer.cpp" />
     <ClCompile Include="Sources\Render\GBuffer.cpp" />
@@ -156,6 +159,7 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClCompile Include="Sources\Render\Model.cpp" />
     <ClCompile Include="Sources\Render\Quad.cpp" />
     <ClCompile Include="Sources\Render\RenderController.cpp" />
+    <ClCompile Include="Sources\Render\RenderObject.cpp" />
     <ClCompile Include="Sources\Render\Shader.cpp" />
     <ClCompile Include="Sources\Render\ShaderController.cpp" />
     <ClCompile Include="Sources\Render\ShaderProgram.cpp" />
@@ -173,6 +177,10 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClInclude Include="Sources\imgui\imstb_rectpack.h" />
     <ClInclude Include="Sources\imgui\imstb_textedit.h" />
     <ClInclude Include="Sources\imgui\imstb_truetype.h" />
+    <ClInclude Include="Sources\Planet\MercatorTools.h" />
+    <ClInclude Include="Sources\Planet\Planet.h" />
+    <ClInclude Include="Sources\Planet\PlanetChunk.h" />
+    <ClInclude Include="Sources\Planet\Structs.h" />
     <ClInclude Include="Sources\Render\Camera.h" />
     <ClInclude Include="Sources\Render\Framebuffer.h" />
     <ClInclude Include="Sources\Render\GBuffer.h" />
@@ -180,6 +188,7 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClInclude Include="Sources\Render\Model.h" />
     <ClInclude Include="Sources\Render\Quad.h" />
     <ClInclude Include="Sources\Render\RenderController.h" />
+    <ClInclude Include="Sources\Render\RenderObject.h" />
     <ClInclude Include="Sources\Render\Shader.h" />
     <ClInclude Include="Sources\Render\ShaderController.h" />
     <ClInclude Include="Sources\Render\ShaderProgram.h" />
@@ -191,12 +200,6 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClInclude Include="Sources\Render\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Content\shaders\basic.ps" />
-    <None Include="..\..\Content\shaders\basic.vs" />
-    <None Include="..\..\Content\shaders\deferredLightingPass.fs" />
-    <None Include="..\..\Content\shaders\deferredLightingPass.vs" />
-    <None Include="..\..\Content\shaders\gbuffer.fs" />
-    <None Include="..\..\Content\shaders\gbuffer.vs" />
     <None Include="Sources\Shaders\basic.ps" />
     <None Include="Sources\Shaders\basic.vs" />
     <None Include="Sources\Shaders\deferredLightingPass.fs" />

@@ -17,6 +17,9 @@
     <Filter Include="Source Files\Render\Shader">
       <UniqueIdentifier>{8a2b7021-9153-48ac-949f-e5911ad31cb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Planet">
+      <UniqueIdentifier>{fd548ef1-656f-42be-b330-7d0cf898ad8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Sources\Render\Texture.cpp">
@@ -91,6 +94,18 @@
     <ClCompile Include="Sources\Aircraft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Planet\MercatorTools.cpp">
+      <Filter>Source Files\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Planet\Planet.cpp">
+      <Filter>Source Files\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Planet\PlanetChunk.cpp">
+      <Filter>Source Files\Planet</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Render\RenderObject.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Render\TextureController.h">
@@ -159,26 +174,23 @@
     <ClInclude Include="Sources\Render\Texture.h">
       <Filter>Source Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Planet\MercatorTools.h">
+      <Filter>Source Files\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Planet\Planet.h">
+      <Filter>Source Files\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Planet\Structs.h">
+      <Filter>Source Files\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Planet\PlanetChunk.h">
+      <Filter>Source Files\Planet</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Render\RenderObject.h">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Content\shaders\basic.ps">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Content\shaders\basic.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Content\shaders\gbuffer.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Content\shaders\gbuffer.fs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Content\shaders\deferredLightingPass.vs">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\..\Content\shaders\deferredLightingPass.fs">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="Sources\Shaders\basic.ps">
       <Filter>Source Files\Render\Shader</Filter>
     </None>

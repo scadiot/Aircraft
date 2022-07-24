@@ -10,6 +10,9 @@ public:
 	void setPosition(glm::vec3 pPosition);
 	void setTarget(glm::vec3 pTarget);
 
+	glm::vec3 getPosition();
+	glm::vec3 getTarget();
+
 	glm::mat4 getProjectionMatrix();
 	glm::mat4 getViewMatrix();
 

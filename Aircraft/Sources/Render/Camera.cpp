@@ -21,6 +21,16 @@ void Camera::setTarget(glm::vec3 pTarget)
 	mUpdateViewNeeded = true;
 }
 
+glm::vec3 Camera::getPosition()
+{
+	return mPosition;
+}
+
+glm::vec3 Camera::getTarget()
+{
+	return mTarget;
+}
+
 glm::mat4 Camera::getProjectionMatrix()
 {
 	return mProjection;
