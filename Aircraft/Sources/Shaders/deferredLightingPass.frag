@@ -50,33 +50,37 @@ float RayMarch(vec3 positionOrigine, vec3 rayDirection)
     float transmitance = 0;
     float t0, t1;
     vec3 sunDirectionInverse = gSunOrientation;// * -1;
+    float t2, t3;
+    
     if(RayIntersectsSphere(positionOrigine, rayDirection, gPlanetPosition, gAtmsophereRadius, t0, t1))
     {
         vec3 groundPosition = texture(gPosition, aTexCoord).rgb;
-        if(groundPosition.x + groundPosition.y + groundPosition.z != 0) {
-            t1 = length(positionOrigine - groundPosition);
+        if(RayIntersectsSphere(positionOrigine, rayDirection, gPlanetPosition, gPlanetRadius, t2, t3)) {
+        //if(groundPosition.x + groundPosition.y + groundPosition.z != 0) {
+            t1 = t2;
         }
         t0 = max(t0, 0);
         float rayLength = t1 - t0;
         float stepSize = rayLength / STEP_COUNT;
         vec3 step = rayDirection * stepSize;
         vec3 position = positionOrigine + rayDirection * t0;
-        for(int i=0;i<STEP_COUNT;i++)
-        {
-            float t2, t3;
-            if(RayIntersectsSphere(position, sunDirectionInverse, gPlanetPosition, gPlanetRadius, t2, t3) && t2 > 0)
-            {
-                transmitance += 0;
-            }
-            else
-            {
-                transmitance += atmosphereDensity(position) * stepSize;
-            }
-            
-            position += step;
-        }
+        //for(int i=0;i<STEP_COUNT;i++)
+        //{
+        //    float t2, t3;
+        //    if(RayIntersectsSphere(position, sunDirectionInverse, gPlanetPosition, gPlanetRadius, t2, t3) && t2 > 0)
+        //    {
+        //        transmitance += 0;
+        //    }
+        //    else
+        //    {
+        //        transmitance += atmosphereDensity(position) * stepSize;
+        //    }
+        //    
+        //    position += step;
+        //}
     }
-    return transmitance / 2;
+    //return transmitance / gAtmsophereRadius;
+    return (t1 - t0) / gAtmsophereRadius;
 }
 
 vec3 rayDirection() {
@@ -93,6 +97,6 @@ void main() {
 
     vec3 normal = texture(gNormal, aTexCoord).rgb;
     float diff = max(dot(normal, gSunOrientation), 0.0);
-    outFragColor.rgb = mix(texture(gAlbedoSpec, aTexCoord).rgb * diff, vec3(0, 0, 1), 0);
+    outFragColor.rgb = texture(gAlbedoSpec, aTexCoord).rgb;//mix(texture(gAlbedoSpec, aTexCoord).rgb, vec3(0, 1, 1),  d);
     outFragColor.a = 1;
 }

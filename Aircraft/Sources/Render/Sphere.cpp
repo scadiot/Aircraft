@@ -58,7 +58,8 @@ Sphere::Sphere()
         }
     }
 
-    mVertexArray = new VertexArray(&vertices[0], vertices.size());
+    mVertexArray = new VertexArray();
+    mVertexArray->setVertices(&vertices[0], vertices.size());
     mVertexArray->setIndices(&indices[0], indices.size());
 }
 

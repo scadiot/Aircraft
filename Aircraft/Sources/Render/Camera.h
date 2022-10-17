@@ -7,24 +7,17 @@ class Camera {
 public:
 	Camera();
 
-	void setPosition(glm::vec3 pPosition);
-	void setTarget(glm::vec3 pTarget);
+	void setPosition(glm::dvec3 pPosition);
+	void setDirection(glm::dvec3 pDirection);
 
-	glm::vec3 getPosition();
-	glm::vec3 getTarget();
+	glm::dvec3 getPosition();
+	glm::dvec3 getDirection();
 
-	glm::mat4 getProjectionMatrix();
-	glm::mat4 getViewMatrix();
-
-	void updateMAtrix();
+	glm::dmat4 getProjectionMatrix();
 protected:
-	void updateMatrix();
 
-	glm::vec3 mPosition;
-	glm::vec3 mTarget;
+	glm::dvec3 mPosition;
+	glm::dvec3 mDirection;
 
-	glm::mat4 mProjection;
-	glm::mat4 mView;
-
-	bool mUpdateViewNeeded;
+	glm::dmat4 mProjection;
 };

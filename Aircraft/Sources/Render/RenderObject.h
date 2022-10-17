@@ -8,16 +8,16 @@ class Texture;
 
 class RenderObject {
 public:
-	RenderObject(VertexArray* pVertexArray, Texture* pTexture, const glm::mat4& pTransform);
-
+	RenderObject();
+	void initialize(VertexArray* pVertexArray, Texture* pTexture, const glm::dmat4& pTransform);
 	void setTexture(Texture* pTexture);
-	void setTransform(const glm::mat4& pTransform);
+	void setTransform(const glm::dmat4& pTransform);
 
 	VertexArray* vertexArray();
 	Texture* texture();
-	glm::mat4 transform();
+	glm::dmat4 transform();
 protected:
 	VertexArray* mVertexArray;
 	Texture* mTexture;
-	glm::mat4 mTransform;
+	glm::dmat4 mTransform;
 };

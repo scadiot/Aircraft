@@ -1,6 +1,11 @@
 #include "RenderObject.h"
 
-RenderObject::RenderObject(VertexArray* pVertexArray, Texture* pTexture, const glm::mat4& pTransform)
+RenderObject::RenderObject()
+{
+
+}
+
+void RenderObject::initialize(VertexArray* pVertexArray, Texture* pTexture, const glm::dmat4& pTransform)
 {
 	mVertexArray = pVertexArray;
 	mTexture = pTexture;
@@ -12,7 +17,7 @@ void RenderObject::setTexture(Texture* pTexture)
 	mTexture = pTexture;
 }
 
-void RenderObject::setTransform(const glm::mat4& pTransform)
+void RenderObject::setTransform(const glm::dmat4& pTransform)
 {
 	mTransform = pTransform;
 }
@@ -27,7 +32,7 @@ Texture* RenderObject::texture()
 	return mTexture;
 }
 
-glm::mat4 RenderObject::transform()
+glm::dmat4 RenderObject::transform()
 {
 	return mTransform;
 }

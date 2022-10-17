@@ -14,7 +14,8 @@ struct VertexNormalUv
 
 class VertexArray {
 public:
-	VertexArray(const VertexNormalUv* vertices, unsigned int pVerticesCount);
+	VertexArray();
+	void setVertices(const VertexNormalUv* vertices, unsigned int pVerticesCount);
 	void setIndices(const unsigned int* indices, unsigned int pIndicesCount);
 	GLuint id();
 	void bind();
@@ -23,4 +24,6 @@ protected:
 	RenderController* mRenderController;
 	GLuint mVertexArrayId;
 	GLuint mFacesCount;
+	GLuint mVbo;
+	GLuint mEbo;
 };

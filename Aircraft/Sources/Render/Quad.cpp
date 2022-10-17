@@ -15,7 +15,8 @@ unsigned int indices[] = {
 
 Quad::Quad()
 {
-    mVertexArray = new VertexArray(vertices, 4);
+    mVertexArray = new VertexArray();
+    mVertexArray->setVertices(vertices, 4);
     mVertexArray->setIndices(indices, 6);
 }
 

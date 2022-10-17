@@ -9,6 +9,7 @@
 #include "Quad.h"
 #include "VertexArray.h"
 #include "RenderObject.h"
+#include "Sphere.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
@@ -20,8 +21,8 @@ RenderController::RenderController(unsigned int windowWidth, unsigned int window
 	mTextureController = new TextureController();
 
 	mCamera = new Camera();
-    mDeferredLightingPass = new ShaderProgramDeferredLightPass(this, "deferredLightingPass.vs", "deferredLightingPass.fs");
-    mGBufferShaderProgram = mShaderProgramController->loadTexture("gbuffer.vs", "gbuffer.fs");
+    mDeferredLightingPass = new ShaderProgramDeferredLightPass(this, "deferredLightingPass.vert", "deferredLightingPass.frag");
+    mGBufferShaderProgram = mShaderProgramController->loadTexture("gbuffer.vert", "gbuffer.frag");
     mGBuffer = new GBuffer(windowWidth, windowHeight);
     mQuad = new Quad();
 }
@@ -57,24 +58,52 @@ void RenderController::setLightDirection(glm::vec3 pDirection)
     mLightDirection = pDirection;
 }
 
+void RenderController::setPlanetRadius(float pRadius)
+{
+    mPlanetRadius = pRadius;
+}
+
+void RenderController::setAtmosphereRadius(float pRadius)
+{
+    mAtmosphereRadius = pRadius;
+}
+
 void RenderController::pushRenderObject(RenderObject* pRenderObject)
 {
 	mRenderObjects.push_back(pRenderObject);
 }
 
+void RenderController::removeRenderObject(RenderObject* pRenderObject)
+{
+    mRenderObjects.remove(pRenderObject);
+}
+
+void RenderController::clearRenderObject()
+{
+    mRenderObjects.clear();
+}
+
+uint32_t RenderController::renderObjectCount()
+{
+    return mRenderObjects.size();
+}
+
 void RenderController::render()
 {
-    glm::mat4 viewProjection = mCamera->getViewMatrix() * mCamera->getProjectionMatrix();
+    glm::dmat4 view = glm::lookAt(glm::dvec3(0, 0, 0), mCamera->getDirection(), glm::dvec3(0, 1, 0));
+    glm::dmat4 viewProjection = mCamera->getProjectionMatrix() * view;
+    glm::dmat4 decal = glm::translate(glm::dmat4(1), mCamera->getPosition() * -1.0);
+
 
     mGBuffer->bind();
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
 
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     mGBufferShaderProgram->use();
-
     for (RenderObject* renderObject : mRenderObjects) {
-        mGBufferShaderProgram->setMvpMatrix(renderObject->transform() * viewProjection);
+        mGBufferShaderProgram->setMvpMatrix((glm::mat4)(viewProjection * decal * renderObject->transform()));
         mGBufferShaderProgram->setModelMatrix(renderObject->transform());
         renderObject->vertexArray()->bind();
         renderObject->texture()->bind();
@@ -87,11 +116,11 @@ void RenderController::render()
     glEnable(GL_DEPTH_TEST);
 
     mDeferredLightingPass->use();
-    auto inverseMatrix = glm::inverse(mCamera->getProjectionMatrix() * mCamera->getViewMatrix());
+    auto inverseMatrix = glm::inverse(viewProjection);
     mDeferredLightingPass->setInverseMatrix(inverseMatrix);
     mDeferredLightingPass->setCameraDirection(mCamera->getPosition());
-    mDeferredLightingPass->setAtmsophereRadius(7);
-    mDeferredLightingPass->setPlanetRadius(5);
+    mDeferredLightingPass->setAtmsophereRadius(mAtmosphereRadius);
+    mDeferredLightingPass->setPlanetRadius(mPlanetRadius);
     mDeferredLightingPass->setPlanetPosition(glm::vec3(0, 0, 0));
     mDeferredLightingPass->setSunOrientation(mLightDirection);
 

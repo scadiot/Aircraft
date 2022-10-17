@@ -34,7 +34,8 @@ Mesh::Mesh(const aiMesh* mesh)
         }
     }
 
-    mVertexArray = new VertexArray(&verticesData[0], (unsigned int)verticesData.size());
+    mVertexArray = new VertexArray();
+    mVertexArray->setVertices(&verticesData[0], (unsigned int)verticesData.size());
     mVertexArray->setIndices(&indicesData[0], (unsigned int)indicesData.size());
 }
 

@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/transform.hpp>
-
+#include <glm/gtx/euler_angles.hpp>
 #include <iostream>
 
 #include "imgui/imgui.h"
@@ -10,6 +10,7 @@
 #include "imgui/imgui_impl_opengl3.h"
 
 #include "Render/RenderController.h"
+#include "Render/TextureController.h"
 #include "Render/VertexArray.h"
 #include "Render/Model.h"
 #include "Render/Mesh.h"
@@ -22,17 +23,23 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+static double limitFPS = 1.0 / 60.0;
+
 float sunDirection = 0;
 float cameraDirection = 0;
 float cameraDistance = 20;
+float cameraYaw = 20;
+float cameraPitch = 20;
 
 float keyLeftDown = false;
 float keyRightDown = false;
-
+float keyUpDown = false;
+float keyDownDown = false;
 float keyWDown = false;
 float keySDown = false;
 float keyADown = false;
 float keyDDown = false;
+
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -71,13 +78,27 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
     if (key == GLFW_KEY_D && action == GLFW_RELEASE)
         keyDDown = false;
+
+    if (key == GLFW_KEY_UP && action == GLFW_PRESS)
+        keyUpDown = true;
+
+    if (key == GLFW_KEY_UP && action == GLFW_RELEASE)
+        keyUpDown = false;
+
+    if (key == GLFW_KEY_DOWN && action == GLFW_PRESS)
+        keyDownDown = true;
+
+    if (key == GLFW_KEY_DOWN && action == GLFW_RELEASE)
+        keyDownDown = false;
 }
 
 int main(void)
 {
-    const int windowWidth = 1024;
-    const int windowHeight = 768;
+    const int windowWidth = 640;
+    const int windowHeight = 480;
     GLFWwindow* window;
+
+    srand(time(NULL));
 
     /* Initialize the library */
     if (!glfwInit())
@@ -118,7 +139,7 @@ int main(void)
     RenderController* mRenderController = new RenderController(windowWidth, windowHeight);
     //ShaderProgram* shaderProgram = mRenderController->shaderProgramController()->loadTexture("basic.vs", "basic.ps");
   
-    Planet::Planet* planet = new Planet::Planet(mRenderController);
+    Space::Planet* planet = new Space::Planet(mRenderController);
 
     //glEnable(GL_DEPTH_TEST);
     //Model* lModel = new Model("Contents\\earth\\earth.obj");
@@ -135,20 +156,28 @@ int main(void)
     //glm::mat4 quadMatrix = glm::translate(glm::vec3(0, 0, 0));
 
     //Camera* camera = new Camera();
-    glm::vec3 cameraPosition(0, 0, 30);
-    glm::vec3 cameraTarget(0, 0, 0);
+
+    //glm::dvec3 cameraPosition(4672169.5395881375, 4331978.5510630263, -27232.684498944320);
+    glm::dvec3 cameraPosition(4675247.3258589916, 4335082.4288143180, -24222.705019162586);
+    //glm::dvec3 cameraPosition(0, 0, Space::Planet::Radius * 3);
+    glm::vec3 cameraTarget(0, 0, 10);
     //camera->setPosition(cameraPosition);
     //camera->setTarget(cameraTarget);
 
     mRenderController->camera()->setPosition(cameraPosition);
-    mRenderController->camera()->setTarget(cameraTarget);
-
-
+    //mRenderController->camera()->setTarget(cameraTarget);
+    double lastTime = glfwGetTime(), timer = lastTime;
+    double deltaTime = 0, nowTime = 0;
     //glm::rotate((double)glfwGetTime(), glm::dvec3(0, 1, 0));
     //bool show_demo_window = true;
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        mRenderController->textureController()->update();
+
+        nowTime = glfwGetTime();
+        deltaTime += (nowTime - lastTime);
+        lastTime = nowTime;
         //ImGui_ImplOpenGL3_NewFrame();
         //ImGui_ImplGlfw_NewFrame();
         //ImGui::NewFrame();
@@ -158,39 +187,50 @@ int main(void)
         //ImGui::Text("This is some useful text.");
         //ImGui::End();
         if (keyRightDown) {
-            sunDirection -= 0.05f;
+            sunDirection -= 0.08f * deltaTime;
         }
         if (keyLeftDown) {
-            sunDirection += 0.05f;
+            sunDirection += 0.08f * deltaTime;
         }
 
         if (keyADown) {
-            cameraDirection += 0.01f;
+            cameraYaw += 0.008f * deltaTime;
         }
         if (keyDDown) {
-            cameraDirection -= 0.01f;
+            cameraYaw -= 0.008f * deltaTime;
         }
 
+        if (keyWDown) {
+            cameraPitch += 0.008f * deltaTime;
+        }
+        if (keySDown) {
+            cameraPitch -= 0.008f * deltaTime;
+        }
+        
         mRenderController->camera()->setPosition(cameraPosition);
         //camera->setPosition(cameraPosition);
 
-        glm::mat4 m2 = glm::rotate(glm::mat4(1.0f), cameraDirection, glm::vec3(0, 1, 0));
-        glm::vec3 cameraDir = glm::vec3(m2 * glm::vec4(0, 0, -1, 1));
+        //glm::mat4 m2 = glm::rotate(glm::mat4(1.0f), cameraDirection, glm::vec3(0, 1, 0));
+        glm::mat4 transform = glm::eulerAngleYXZ(glm::radians(cameraYaw), glm::radians(cameraPitch), glm::radians(0.0f));
+        glm::dvec3 cameraDir = glm::vec3(transform * glm::vec4(0, 0, -1, 1));
         cameraTarget = cameraDir + cameraPosition;
-        mRenderController->camera()->setTarget(cameraTarget);
+        mRenderController->camera()->setDirection(cameraDir);
 
-
-
-        if (keyWDown) {
-            cameraPosition += cameraDir * 0.01f;
+        double distanceFromCenter = glm::length(cameraPosition);
+        double speed = std::min(std::max(0.1, (distanceFromCenter - Space::Planet::Radius) / 10000.0), 1000.0);
+        if (keyUpDown) {
+            cameraPosition += cameraDir * speed * deltaTime;
         }
-        if (keySDown) {
-            cameraPosition -= cameraDir * 0.01f;
+        if (keyDownDown) {
+            cameraPosition -= cameraDir * speed * deltaTime;
         }
-        mRenderController->camera()->setPosition(cameraPosition);
+
+        mRenderController->camera()->setPosition(cameraPosition);// {0.0, 0.0, Space::Planet::Radius * 3});
         //ImGui::Render();
         //glm::mat4 earthModelMatrix = glm::rotate((float)glfwGetTime(), glm::vec3(0, 1, 0));
-        mRenderController->setLightDirection(glm::normalize(glm::vec3(1,0.5, -1)));
+        mRenderController->setLightDirection(glm::normalize(glm::vec3(0,0.5, -1)));
+
+        planet->update(cameraPosition);
 
        // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         mRenderController->render();

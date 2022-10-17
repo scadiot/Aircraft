@@ -14,6 +14,6 @@ out vec2 aTexCoord;
 void main() {
   gl_Position = mvpMatrix * vec4(inPosition, 1.0);
   aPosition = (modelMatrix * vec4(inPosition, 1.0)).xyz;
-  aNormal = (modelMatrix * vec4(inNormal, 1.0)).xyz;
+  aNormal = inNormal;//(modelMatrix * vec4(inNormal, 1.0)).xyz;
   aTexCoord = inTexCoord;
 }

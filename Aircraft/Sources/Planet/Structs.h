@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 
-namespace Planet {
+namespace Space {
 	struct PlanetCoord {
 		double latitude;
 		double longitude;

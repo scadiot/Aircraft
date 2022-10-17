@@ -8,14 +8,12 @@
     <Filter Include="Source Files\Render">
       <UniqueIdentifier>{6b7900c3-c842-4672-9187-80492e325ef6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders">
-      <UniqueIdentifier>{485d0753-7261-49e2-9e15-0b17cc5716db}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\imgui">
       <UniqueIdentifier>{558aab02-5790-4d61-800a-68f3626b5926}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Render\Shader">
       <UniqueIdentifier>{8a2b7021-9153-48ac-949f-e5911ad31cb9}</UniqueIdentifier>
+      <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Source Files\Planet">
       <UniqueIdentifier>{fd548ef1-656f-42be-b330-7d0cf898ad8f}</UniqueIdentifier>
@@ -106,6 +104,9 @@
     <ClCompile Include="Sources\Render\RenderObject.cpp">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Planet\ElevationController.cpp">
+      <Filter>Source Files\Planet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Sources\Render\TextureController.h">
@@ -189,24 +190,27 @@
     <ClInclude Include="Sources\Render\RenderObject.h">
       <Filter>Source Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Planet\ElevationController.h">
+      <Filter>Source Files\Planet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sources\Shaders\basic.ps">
+    <None Include="Sources\Shaders\basic.frag">
       <Filter>Source Files\Render\Shader</Filter>
     </None>
-    <None Include="Sources\Shaders\basic.vs">
+    <None Include="Sources\Shaders\basic.vert">
       <Filter>Source Files\Render\Shader</Filter>
     </None>
-    <None Include="Sources\Shaders\deferredLightingPass.fs">
+    <None Include="Sources\Shaders\deferredLightingPass.frag">
       <Filter>Source Files\Render\Shader</Filter>
     </None>
-    <None Include="Sources\Shaders\deferredLightingPass.vs">
+    <None Include="Sources\Shaders\gbuffer.frag">
       <Filter>Source Files\Render\Shader</Filter>
     </None>
-    <None Include="Sources\Shaders\gbuffer.fs">
+    <None Include="Sources\Shaders\deferredLightingPass.vert">
       <Filter>Source Files\Render\Shader</Filter>
     </None>
-    <None Include="Sources\Shaders\gbuffer.vs">
+    <None Include="Sources\Shaders\gbuffer.vert">
       <Filter>Source Files\Render\Shader</Filter>
     </None>
   </ItemGroup>

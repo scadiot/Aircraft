@@ -2,3 +2,9 @@ x64
 Aircraft\x64
 .vs
 Contents
+/Tools/TilesScraper/bin/Debug/net6.0
+/Tools/TilesScraper/obj
+/Tools/HeightExtractor/bin/Debug
+/Tools/HeightExtractor/obj
+/Tools/Common/bin/Debug/net6.0
+/Tools/Common/obj

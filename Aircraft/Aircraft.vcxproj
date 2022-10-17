@@ -106,6 +106,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;GLEW_STATIC;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(LIBS)\glfw\3.3.7\include;$(LIBS)\glew\2.2.0\include;$(LIBS)\glm;$(LIBS)\stb;$(LIBS)\assimp\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -149,6 +150,7 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClCompile Include="Sources\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Sources\imgui\imgui_tables.cpp" />
     <ClCompile Include="Sources\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Sources\Planet\ElevationController.cpp" />
     <ClCompile Include="Sources\Planet\MercatorTools.cpp" />
     <ClCompile Include="Sources\Planet\Planet.cpp" />
     <ClCompile Include="Sources\Planet\PlanetChunk.cpp" />
@@ -177,6 +179,7 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClInclude Include="Sources\imgui\imstb_rectpack.h" />
     <ClInclude Include="Sources\imgui\imstb_textedit.h" />
     <ClInclude Include="Sources\imgui\imstb_truetype.h" />
+    <ClInclude Include="Sources\Planet\ElevationController.h" />
     <ClInclude Include="Sources\Planet\MercatorTools.h" />
     <ClInclude Include="Sources\Planet\Planet.h" />
     <ClInclude Include="Sources\Planet\PlanetChunk.h" />
@@ -200,12 +203,12 @@ xcopy "$(SolutionDir)Contents" "$(TargetDir)Contents" /e /y /i /r</Command>
     <ClInclude Include="Sources\Render\VertexArray.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sources\Shaders\basic.ps" />
-    <None Include="Sources\Shaders\basic.vs" />
-    <None Include="Sources\Shaders\deferredLightingPass.fs" />
-    <None Include="Sources\Shaders\deferredLightingPass.vs" />
-    <None Include="Sources\Shaders\gbuffer.fs" />
-    <None Include="Sources\Shaders\gbuffer.vs" />
+    <None Include="Sources\Shaders\basic.frag" />
+    <None Include="Sources\Shaders\basic.vert" />
+    <None Include="Sources\Shaders\deferredLightingPass.frag" />
+    <None Include="Sources\Shaders\deferredLightingPass.vert" />
+    <None Include="Sources\Shaders\gbuffer.frag" />
+    <None Include="Sources\Shaders\gbuffer.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
